@@ -38,6 +38,22 @@
             pointer-events: none;
         }
 
+        .firma {
+            position: absolute;
+            left: 50%;
+            bottom: 14px;
+            transform: translateX(-50%);
+            margin: 0;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.48);
+            color: #4f5c2f;
+            font-size: clamp(12px, 1.6vw, 15px);
+            letter-spacing: 0.2px;
+            border: 1px solid rgba(120, 145, 75, 0.35);
+            pointer-events: none;
+        }
+
         canvas {
             display: block;
         }
@@ -47,6 +63,7 @@
 <body>
     <h1 class="titulo">no te quedas sin tus flores amarillas</h1>
     <canvas id="canvas"></canvas>
+    <p class="firma">made by B_Sosa</p>
 </body>
 <script defer src="script.js"></script>
 
