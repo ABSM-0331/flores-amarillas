@@ -5,9 +5,16 @@ const ctx = canvas.getContext("2d");
 
 const petalos = 6;
 const anguloFinal = (2 * Math.PI) / petalos;
+const PALABRA_CLAVE = "bartolito";
 
 let progreso = 0; // va de 0 a 1
 let flores = [];
+let accesoConcedido = false;
+
+const pantallaClave = document.getElementById("pantallaClave");
+const claveInput = document.getElementById("claveInput");
+const claveBtn = document.getElementById("claveBtn");
+const claveError = document.getElementById("claveError");
 
 function ajustarCanvas() {
     canvas.width = window.innerWidth;
@@ -16,7 +23,7 @@ function ajustarCanvas() {
     actualizarFlores();
 
     // Si ya termino la animacion, redibujar al nuevo centro.
-    if (progreso >= 1) {
+    if (accesoConcedido && progreso >= 1) {
         animar();
     }
 }
@@ -178,6 +185,10 @@ function dibujarFondo() {
 
 // animación
 function animar() {
+    if (!accesoConcedido) {
+        return;
+    }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     dibujarFondo();
 
@@ -192,7 +203,30 @@ function animar() {
     }
 }
 
+function validarClave() {
+    const ingresada = claveInput.value.trim().toLowerCase();
+
+    if (ingresada === PALABRA_CLAVE.toLowerCase()) {
+        accesoConcedido = true;
+        claveError.textContent = "";
+        document.body.classList.remove("bloqueado");
+        pantallaClave.classList.add("oculta");
+        progreso = 0;
+        animar();
+        return;
+    }
+
+    claveError.textContent = "Error: palabra clave incorrecta.";
+}
+
 // iniciar
+document.body.classList.add("bloqueado");
 ajustarCanvas();
 window.addEventListener("resize", ajustarCanvas);
-animar();
+
+claveBtn.addEventListener("click", validarClave);
+claveInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        validarClave();
+    }
+});
